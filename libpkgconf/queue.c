@@ -147,6 +147,30 @@ dep_sort_cmp(const void *a, const void *b)
 	return depB->match->hits - depA->match->hits;
 }
 
+static void
+dep_stable_sort(pkgconf_dependency_t **arr, size_t nmemb,
+		int (*compar)(const void *, const void *))
+{
+	size_t i, j;
+	pkgconf_dependency_t *key;
+
+	if (arr == NULL || nmemb == 0)
+		return;
+
+	for (i = 1; i < nmemb; i++)
+	{
+		key = arr[i];
+		j = i - 1;
+
+		while (j != (size_t) -1 && compar(&key, &arr[j]) < 0)
+		{
+			arr[j + 1] = arr[j];
+			j = j - 1;
+		}
+		arr[j + 1] = key;
+	}
+}
+
 static inline void
 flatten_dependency_set(pkgconf_client_t *client, pkgconf_list_t *list)
 {
@@ -204,7 +228,7 @@ next:
 	if (deps == NULL)
 		return;
 
-	qsort(deps, dep_count, sizeof (void *), dep_sort_cmp);
+	dep_stable_sort(deps, dep_count, dep_sort_cmp);
 
 	/* zero the list and start readding */
 	pkgconf_list_zero(list);
