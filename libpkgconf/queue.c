@@ -15,6 +15,7 @@
 
 #include <libpkgconf/stdinc.h>
 #include <libpkgconf/libpkgconf.h>
+#include <libpkgconf/heapsort.h>
 
 /*
  * !doc
@@ -204,7 +205,7 @@ next:
 	if (deps == NULL)
 		return;
 
-	qsort(deps, dep_count, sizeof (void *), dep_sort_cmp);
+	heapsort(deps, dep_count, sizeof (void *), dep_sort_cmp);
 
 	/* zero the list and start readding */
 	pkgconf_list_zero(list);

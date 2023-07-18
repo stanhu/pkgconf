@@ -150,6 +150,7 @@ libpkgconf_la_SOURCES  =	\
 		libpkgconf/fragment.c		\
 		libpkgconf/argvsplit.c		\
 		libpkgconf/fileio.c		\
+		libpkgconf/heapsort.c		\
 		libpkgconf/tuple.c		\
 		libpkgconf/dependency.c		\
 		libpkgconf/queue.c		\
